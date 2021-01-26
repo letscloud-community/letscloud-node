@@ -5,15 +5,20 @@ import Location, { LocationProperties } from './location';
 import Profile, { Profileproperties } from './profile';
 
 interface CreateInstanceRequest {
-  location_slug: string;
-  plan_slug: string;
+  locationSlug: string;
+  planSlug: string;
   hostname: string;
+  label: string;
+  imageSlug: string;
+  sshSlug?: string;
 }
 
 export default class Letscloud {
   private requestHelper: RequestHelper;
   private profileDetails?: Profile;
   private locationsDetails?: Location[];
+  private sshKeys?: SSH[];
+  private instancesDetails?: Instance[];
 
   constructor(apiToken: string) {
     this.requestHelper = new RequestHelper(apiToken);
@@ -25,6 +30,14 @@ export default class Letscloud {
 
   get locations() {
     return this.locationsDetails;
+  }
+
+  get sshs() {
+    return this.sshKeys;
+  }
+
+  get instances() {
+    return this.instancesDetails;
   }
 
   public getProfile() {
@@ -54,9 +67,14 @@ export default class Letscloud {
   public getSSHKeys() {
     return this.requestHelper
       .submitRequest<SSHProperties[]>('GET', '/sshkeys')
-      .then(({ data: { data: sshs } }) =>
-        sshs.map(ssh => new SSH(ssh, this.requestHelper)),
-      );
+      .then(({ data: { data: dataRaw } }) => {
+        const data = dataRaw || [];
+        const sshs = data.map(ssh => new SSH(ssh, this.requestHelper));
+
+        this.sshKeys = sshs;
+
+        return sshs;
+      });
   }
 
   public getSSHKey(sshSlug: string) {
@@ -83,11 +101,15 @@ export default class Letscloud {
   public getInstances() {
     return this.requestHelper
       .submitRequest<Record<string, InstanceProperties>>('GET', '/instances')
-      .then(({ data: { data: instances } }) =>
-        Object.values(instances).map(
+      .then(({ data: { data } }) => {
+        const instances = Object.values(data).map(
           instance => new Instance(instance, this.requestHelper),
-        ),
-      );
+        );
+
+        this.instancesDetails = instances;
+
+        return instances;
+      });
   }
 
   public getInstance(identifier: string) {
@@ -101,7 +123,16 @@ export default class Letscloud {
 
   public createInstance(instanceData: CreateInstanceRequest) {
     return this.requestHelper
-      .submitRequest('POST', '/instances', { data: instanceData })
+      .submitRequest('POST', '/instances', {
+        data: {
+          location_slug: instanceData.locationSlug,
+          plan_slug: instanceData.planSlug,
+          image_slug: instanceData.imageSlug,
+          ssh_slug: instanceData.sshSlug,
+          hostname: instanceData.hostname,
+          label: instanceData.label,
+        },
+      })
       .then(({ data: { success } }) => success);
   }
 }

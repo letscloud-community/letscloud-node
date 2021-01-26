@@ -30,6 +30,10 @@ export default class Profile implements Profileproperties {
     return currencyCodes[this.currency];
   }
 
+  get balanceNumber() {
+    return Number(this.balance);
+  }
+
   get companyName() {
     return this.company_name;
   }
