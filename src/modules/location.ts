@@ -1,11 +1,6 @@
 import RequestHelper from './request-helper';
 import Plan, { PlanProperties } from './plan';
-
-export interface Image {
-  distro: string;
-  os: string;
-  slug: string;
-}
+import Image, { ImageProperties } from './image';
 
 export interface LocationProperties {
   slug: string;
@@ -49,14 +44,18 @@ export default class Location implements LocationProperties {
         const location = Object.values(data)[0];
         const plans = Object.values(location.plans).map(plan => new Plan(plan));
 
+        this.plans = plans;
+
         return plans;
       });
   }
 
   public getImages() {
     return this.requestHelper
-      .submitRequest<Image[]>('GET', `/locations/${this.slug}/images`)
-      .then(({ data: { data: images } }) => {
+      .submitRequest<ImageProperties[]>('GET', `/locations/${this.slug}/images`)
+      .then(({ data: { data } }) => {
+        const images = data.map(image => new Image(image));
+
         this.images = images;
 
         return images;

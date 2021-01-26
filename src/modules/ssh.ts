@@ -4,6 +4,7 @@ export interface SSHProperties {
   title: string;
   slug: string;
   public_key: string;
+  private_key?: string;
 }
 
 export default class Insntace implements SSHProperties {
@@ -12,6 +13,7 @@ export default class Insntace implements SSHProperties {
   public title = '';
   public slug = '';
   public public_key = '';
+  public private_key?: string;
 
   constructor(ssh: SSHProperties, requestHelper: RequestHelper) {
     this.requestHelper = requestHelper;
@@ -23,10 +25,15 @@ export default class Insntace implements SSHProperties {
     return this.public_key;
   }
 
+  get privateKey() {
+    return this.private_key;
+  }
+
   private setSSHData(ssh: SSHProperties) {
     this.title = ssh.title;
     this.slug = ssh.slug;
     this.public_key = ssh.public_key;
+    this.private_key = ssh.private_key || this.private_key;
   }
 
   public fetchSSHKey() {
