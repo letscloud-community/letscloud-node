@@ -1,6 +1,11 @@
-import axios, { AxiosInstance, Method, AxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosInstance,
+  Method,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
-import { ApiResponse } from '../../letscloud-node';
+export type ApiResponse<Data> = AxiosResponse<{ data: Data; success: boolean }>;
 
 export default class RequestHelper {
   private axiosInstance: AxiosInstance;

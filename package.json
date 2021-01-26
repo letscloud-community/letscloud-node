@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Node Api wrapper for letscloud API version 1",
   "main": "dist/index.js",
-  "types": "./letscloud-node.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "tsc",
     "build": "tsc",
@@ -17,6 +17,10 @@
   "keywords": [
     "api",
     "letscloud"
+  ],
+  "files": [
+    "dist/",
+    "letscloud-node.d.ts"
   ],
   "author": "Letscloud",
   "license": "MIT",
