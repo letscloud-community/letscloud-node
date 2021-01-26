@@ -1,22 +1,11 @@
 import RequestHelper from './request-helper';
-
-import {
-  Profile,
-  Location,
-  Plan,
-  Image,
-  SSHKey,
-  Instance,
-} from '../../letscloud-node';
-
-interface LocationWithPlans extends Location {
-  plans: Plan[];
-}
+import Instance, { InstanceProperties } from './instance';
+import SSH, { SSHProperties } from './ssh';
+import Location, { LocationProperties } from './location';
+import Profile, { Profileproperties } from './profile';
 
 interface CreateInstanceRequest {
-  // eslint-disable-next-line camelcase
   location_slug: string;
-  // eslint-disable-next-line camelcase
   plan_slug: string;
   hostname: string;
 }
@@ -40,8 +29,10 @@ export default class Letscloud {
 
   public getProfile() {
     return this.requestHelper
-      .submitRequest<Profile>('GET', '/profile')
-      .then(({ data: { data: profile } }) => {
+      .submitRequest<Profileproperties>('GET', '/profile')
+      .then(({ data: { data } }) => {
+        const profile = new Profile(data);
+
         this.profileDetails = profile;
         return profile;
       });
@@ -49,105 +40,68 @@ export default class Letscloud {
 
   public getLocations() {
     return this.requestHelper
-      .submitRequest<Location[]>('GET', '/locations')
-      .then(({ data: { data: locations } }) => {
+      .submitRequest<LocationProperties[]>('GET', '/locations')
+      .then(({ data: { data } }) => {
+        const locations = data.map(
+          location => new Location(location, this.requestHelper),
+        );
+
         this.locationsDetails = locations;
         return locations;
       });
   }
 
-  public getLocationPlans(locationSlug: string) {
-    return this.requestHelper
-      .submitRequest<Record<string, LocationWithPlans>>(
-        'GET',
-        `/locations/${locationSlug}/plans`,
-      )
-      .then(({ data: { data } }) => Object.values(data)[0]);
-  }
-
-  public getLocationImages(locationSlug: string) {
-    return this.requestHelper
-      .submitRequest<Image[]>('GET', `/locations/${locationSlug}/images`)
-      .then(({ data: { data: images } }) => images);
-  }
-
   public getSSHKeys() {
     return this.requestHelper
-      .submitRequest<SSHKey[]>('GET', '/sshkeys')
-      .then(({ data: { data: sshs } }) => sshs);
+      .submitRequest<SSHProperties[]>('GET', '/sshkeys')
+      .then(({ data: { data: sshs } }) =>
+        sshs.map(ssh => new SSH(ssh, this.requestHelper)),
+      );
   }
 
   public getSSHKey(sshSlug: string) {
     return this.requestHelper
-      .submitRequest<SSHKey>('GET', `/sshkeys/${sshSlug}`)
-      .then(({ data: { data: ssh } }) => ssh);
+      .submitRequest<SSHProperties>('GET', `/sshkeys/${sshSlug}`)
+      .then(({ data: { data: ssh } }) => new SSH(ssh, this.requestHelper));
   }
 
   public createSSHKey(title: string, key?: string) {
-    return (
-      this.requestHelper
-        // eslint-disable-next-line camelcase
-        .submitRequest<SSHKey & { private_key: string }>('POST', '/sshkeys', {
+    return this.requestHelper
+      .submitRequest<SSHProperties & { private_key: string }>(
+        'POST',
+        '/sshkeys',
+        {
           data: {
             title,
             key,
           },
-        })
-        .then(({ data: { data: ssh } }) => ssh)
-    );
-  }
-
-  public deleteSSHKey(sshSlug: string) {
-    return this.requestHelper
-      .submitRequest('DELETE', `/sshkeys`, {
-        data: { slug: sshSlug },
-      })
-      .then(({ data: { success } }) => success);
+        },
+      )
+      .then(({ data: { data: ssh } }) => new SSH(ssh, this.requestHelper));
   }
 
   public getInstances() {
     return this.requestHelper
-      .submitRequest<Record<string, Instance>>('GET', '/instances')
-      .then(({ data: { data: instances } }) => instances);
+      .submitRequest<Record<string, InstanceProperties>>('GET', '/instances')
+      .then(({ data: { data: instances } }) =>
+        Object.values(instances).map(
+          instance => new Instance(instance, this.requestHelper),
+        ),
+      );
   }
 
   public getInstance(identifier: string) {
     return this.requestHelper
-      .submitRequest<Instance>('GET', `/instances/${identifier}`)
-      .then(({ data: { data: instance } }) => instance);
+      .submitRequest<InstanceProperties>('GET', `/instances/${identifier}`)
+      .then(
+        ({ data: { data: instance } }) =>
+          new Instance(instance, this.requestHelper),
+      );
   }
 
   public createInstance(instanceData: CreateInstanceRequest) {
     return this.requestHelper
       .submitRequest('POST', '/instances', { data: instanceData })
-      .then(({ data: { success } }) => success);
-  }
-
-  public deleteInstance(instanceId: string) {
-    return this.requestHelper
-      .submitRequest('DELETE', `/instances/${instanceId}`)
-      .then(({ data: { success } }) => success);
-  }
-
-  public changePower(instanceId: string, turnOn: boolean) {
-    const resource = `power-${turnOn ? 'on' : 'off'}`;
-
-    return this.requestHelper
-      .submitRequest('PUT', `/instances/${instanceId}/${resource}`)
-      .then(({ data: { success } }) => success);
-  }
-
-  public rebootInstance(instanceId: string) {
-    return this.requestHelper
-      .submitRequest('PUT', `/instances/${instanceId}/reboot`)
-      .then(({ data: { success } }) => success);
-  }
-
-  public resetPassword(instanceId: string, newPassword: string) {
-    return this.requestHelper
-      .submitRequest('PUT', `/instances/${instanceId}/reset-password`, {
-        data: { password: newPassword },
-      })
       .then(({ data: { success } }) => success);
   }
 }
