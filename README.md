@@ -1,6 +1,6 @@
 # LetsCloud Node
 
-Api Wrapper to use [letscloud API](https://developers.letscloud.io/) V1. This is built with typescript to better IntelliSense and learning.
+Official API Wrapper to use [letscloud API](https://developers.letscloud.io/) V1. This is built with typescript to better IntelliSense and learning.
 
 ## Summary
 

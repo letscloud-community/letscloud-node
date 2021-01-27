@@ -36,12 +36,11 @@ export default class Location implements LocationProperties {
 
   public getPlans() {
     return this.requestHelper
-      .submitRequest<Record<string, Required<LocationProperties>>>(
+      .submitRequest<Required<LocationProperties>>(
         'GET',
         `/locations/${this.slug}/plans`,
       )
-      .then(({ data: { data } }) => {
-        const location = Object.values(data)[0];
+      .then(({ data: { data: location } }) => {
         const plans = Object.values(location.plans).map(plan => new Plan(plan));
 
         this.plans = plans;
