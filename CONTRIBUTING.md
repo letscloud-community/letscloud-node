@@ -8,7 +8,7 @@ The code style is enforced with eslint and prettier and is automatically checked
 
 ## Commit Style
 
-Commit messages are checked and enforced with commitlint [conventional configu](https://github.com/conventional-changelog/commitlint). To help you write an appropriate message, checking is done when committing. Please if commit is about a open issue insert the issue id in end of commit inside parentheses. Ex: `fix: fix getProfile method not return profile data (#12)`.
+Commit messages are checked and enforced with commitlint [conventional configure](https://github.com/conventional-changelog/commitlint). To help you write an appropriate message, checking is done when committing. Please if commit is about a open issue insert the issue id in end of commit inside parentheses. Ex: `fix: fix getProfile method not return profile data (#12)`.
 
 ## Docs
 
@@ -18,7 +18,7 @@ If you find some error in docs, please feel free to fix it in README.md.
 
 When creating issues, please provide as many details as possible. A clear explanation of the issue and a reliable example can help us, or someone, a lot to improving this project. Your issue may get closed if it cannot be easily reproduced so please provide a working example using either [Codesandbox](https://codesandbox.io/) or [jsfiddle](https://jsfiddle.net/). Your example should only focus on the issue, minimal and clearly produces the issue.
 
-If your issue gets closed for not providing enough info or not responding to the maintainers' comments, do not consider it a hostile action. There are probably other issues that the maintainers are working on and must give priority to issues that are well investigated, you can always revisit the issue and address the reasons that it was closed and we will be happy to re-open it and address it properly. Sometimes a commit will close your issue without a response from the maintainers so make sure you read the issue timeline to prevent any misunderstandings.
+If your issue gets closed for not providing enough info or not responding to the maintainers comments, do not consider it a hostile action. There are probably other issues that the maintainers are working on and must give priority to issues that are well investigated, you can always revisit the issue and address the reasons that it was closed and we will be happy to re-open it and address it properly. Sometimes a commit will close your issue without a response from the maintainers so make sure you read the issue timeline to prevent any misunderstandings.
 
 ## Pull Requests
 
@@ -43,7 +43,7 @@ Checklist of stuff you need to be aware of
 
 ## Source Code
 
-Currently we are using Typescript for he codebase, make sure to correctly type and export your changes if needed.
+Currently we are using Typescript for the codebase, make sure to correctly type and export your changes if needed.
 
 ## Building
 
