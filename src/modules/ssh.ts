@@ -7,7 +7,7 @@ export interface SSHProperties {
   private_key?: string;
 }
 
-export default class Insntace implements SSHProperties {
+export default class SSH implements SSHProperties {
   private requestHelper: RequestHelper;
 
   public title = '';
