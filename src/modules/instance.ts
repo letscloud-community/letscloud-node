@@ -14,7 +14,7 @@ export interface InstanceProperties {
   hostname: string;
 }
 
-export default class Insntace implements InstanceProperties {
+export default class Instance implements InstanceProperties {
   private requestHelper: RequestHelper;
 
   public identifier = '';

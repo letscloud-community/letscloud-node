@@ -1,6 +1,6 @@
-# Letscloud Node
+# LetsCloud Node
 
-Api Wrapper to use [letscloud API](https://developers.letscloud.io/). This is built with typescript to better IntelliSense and learning.
+Api Wrapper to use [letscloud API](https://developers.letscloud.io/) V1. This is built with typescript to better IntelliSense and learning.
 
 ## Summary
 
@@ -9,9 +9,9 @@ Api Wrapper to use [letscloud API](https://developers.letscloud.io/). This is bu
 - [Built With](#built-with)
 - [Usage](#usage)
   - [Profile](#profile)
-  - [Locations](#locations)
-    - [Plans](#plans)
-    - [Images](#images)
+  - [Location](#locations)
+    - [Plan](#plans)
+    - [Image](#images)
   - [Ssh](#ssh)
   - [Instance](#instance)
 - [Contribuiting](#Contribuiting)
@@ -22,7 +22,7 @@ Api Wrapper to use [letscloud API](https://developers.letscloud.io/). This is bu
 ## Getting Started
 
 ### Installing
-How to install in yout project
+How to install in your project
 
 Add to project
 ```sh
@@ -33,7 +33,7 @@ yarn add @letscloud/node
 npm install @letscloud/node --save
 ```
 
-import in the file
+Import in the file
 ```typescript
 import LetsCloud from '@letscloud/node';
 
@@ -95,7 +95,7 @@ The profile class contains the following properties
 }
 ```
 
-### Locations
+### Location
 The location class represents one location
 
 Getting all locations
@@ -122,7 +122,7 @@ The Location class contains the following properties and methods
 
   // The city where the location is
   city: string,
-ssh
+
   // If the location is available or not
   available: boolean,
 
@@ -137,22 +137,23 @@ ssh
   // Get plans for this location and stores in `plans`. Also returns the fetched plans
   getPlans: () => Promise<Plan[]>,
 
-  // Get images for this location and stores in `images`. Also returns the fetched plans
+  // Get images for this location and stores in `images`. Also returns the fetched images
   getImages: () => Promise<Image[]>,
 }
 ```
-> NOTE: To see about [Plan](#plans) and [Image](#images)
+> NOTE: See about [Plan](#plans) and [Image](#images)
 
-#### Plans
+#### Plan
 
 Getting all plans availables in location
 ```typescript
   // Each location in the array is one Location class
   letscloud.getLocations().then(locations => {
     const location = locations[0];
-
     location.getPlans().then(console.log);
+
     // Or
+
     await location.getPlans();
     console.log(location.plans)
   })
@@ -191,16 +192,17 @@ The Plan class contains the following properties and methods
 }
 ```
 
-#### Images
+#### Image
 
 Getting all images availables in location
 ```typescript
   // Each location in the array is one Location class
   letscloud.getLocations().then(locations => {
     const location = locations[0];
-
     location.getImages().then(console.log);
+
     // Or
+
     await location.getImages();
     console.log(location.images)
   })
@@ -238,23 +240,24 @@ Getting all ssh keys
 
 Getting one ssh key
 ```typescript
-  // The second parameter is optional, if not passed a new key will be generated and returned from API
-  letscloud.getSSHKey('<ssh-key-slug>', '<the-public-key>').then(sshKey => {
-    // ...
-  })
-
-  // Or
-
-  letscloud.getSSHKey('<ssh-key-slug>').then(sshKey => {
-    console.log(sshKey.privateKey) // 
-    // ...
+  letscloud.getSSHKey('<ssh-key-title>').then(sshKey => {
+      // ...
   })
 ```
 
 Storing a new one ssh key
 ```typescript
-  letscloud.createSSHKey('<ssh-key-title>').then(sshKey => {
-      // ...
+  // The second parameter is optional, if not passed a new key will be generated and returned from API
+  letscloud.createSSHKey('<ssh-key-slug>', '<the-public-key>').then(sshKey => {
+    console.log(sshKey.privateKey) // undefined
+    // ...
+  })
+
+  // Or
+
+  letscloud.createSSHKey('<ssh-key-slug>').then(sshKey => {
+    console.log(sshKey.privateKey) // <your-pivate-key>
+    // ...
   })
 ```
 
@@ -378,7 +381,7 @@ The Instance class contains the following properties and methods
   // Destroy the instance. Return if the action was executed
   deleteInstance: () => Promise<boolean>,
 
-  // Pass `true` to turn on and `false` to turn Off the instance. Return if the action was executed
+  // Pass `true` to turn on and `false` to turn off the instance. Return if the action was executed
   changePower: (turnOn: boolean) => Promise<boolean>,
 
   // Reboot the instance. Return if the action was executed
@@ -410,10 +413,10 @@ available, see the [tags on this repository](https://github.com/letscloud-commun
 
 ## Authors
 
-- **Letscloud Inc** - [github](https://github.com/letscloud-community)
+- **LetsCloud Inc** - [github](https://github.com/letscloud-community)
 
 See also the list of [contributors](https://github.com/letscloud-community/letscloud-node/graphs/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the [MIT](LICENSE.md) - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the [MIT](LICENSE) - see the [LICENSE](LICENSE) file for details
