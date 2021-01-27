@@ -67,13 +67,21 @@ export default class Letscloud {
   public getSSHKeys() {
     return this.requestHelper
       .submitRequest<SSHProperties[]>('GET', '/sshkeys')
-      .then(({ data: { data: dataRaw } }) => {
-        const data = dataRaw || [];
+      .then(({ data: { data } }) => {
         const sshs = data.map(ssh => new SSH(ssh, this.requestHelper));
 
         this.sshKeys = sshs;
 
         return sshs;
+      })
+      .catch(error => {
+        const { response, name } = error;
+
+        if (name === 'RequestError' && response?.status === 200) {
+          return [];
+        }
+
+        throw error;
       });
   }
 
@@ -102,7 +110,7 @@ export default class Letscloud {
     return this.requestHelper
       .submitRequest<Record<string, InstanceProperties>>('GET', '/instances')
       .then(({ data: { data } }) => {
-        const instances = Object.values(data).map(
+        const instances = Object.values(data || {}).map(
           instance => new Instance(instance, this.requestHelper),
         );
 
