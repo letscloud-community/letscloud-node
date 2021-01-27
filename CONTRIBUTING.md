@@ -8,7 +8,7 @@ The code style is enforced with eslint and prettier and is automatically checked
 
 ## Commit Style
 
-Commit messages are checked and enforced with commitlint [conventional configure](https://github.com/conventional-changelog/commitlint). To help you write an appropriate message, checking is done when committing. Please if commit is about a open issue insert the issue id in end of commit inside parentheses. Ex: `fix: fix getProfile method not return profile data (#12)`.
+Commit messages are checked and enforced with commitlint [conventional config](https://github.com/conventional-changelog/commitlint). To help you write an appropriate message, checking is done when committing. Please if commit is about a open issue insert the issue id in end of commit inside parentheses. Ex: `fix: fix getProfile method not return profile data (#12)`.
 
 ## Docs
 
