@@ -10,8 +10,8 @@ Official API Wrapper to use [letscloud API](https://developers.letscloud.io/) V1
 - [Usage](#usage)
   - [Profile](#profile)
   - [Location](#locations)
-    - [Plan](#plans)
-    - [Image](#images)
+    - [Plan](#plan)
+    - [Image](#image)
   - [Ssh](#ssh)
   - [Instance](#instance)
 - [Contribuiting](#Contribuiting)
@@ -141,7 +141,7 @@ The Location class contains the following properties and methods
   getImages: () => Promise<Image[]>,
 }
 ```
-> NOTE: See about [Plan](#plans) and [Image](#images)
+> NOTE: See about [Plan](#plans) and [Image](#image)
 
 #### Plan
 
