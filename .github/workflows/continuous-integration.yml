@@ -48,4 +48,4 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [8.10, 10, 12, 14]
+        node-version: [10, 12, 14]

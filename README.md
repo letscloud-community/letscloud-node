@@ -1,6 +1,6 @@
 # LetsCloud Node
 
-Official API Wrapper to use [letscloud API](https://developers.letscloud.io/) V1. This is built with typescript to better IntelliSense and learning. This project requires NODE >= 8.10.0.
+Official API Wrapper to use [letscloud API](https://developers.letscloud.io/) V1. This is built with typescript to better IntelliSense and learning. This project requires NODE >= 10.
 
 ## Summary
 
