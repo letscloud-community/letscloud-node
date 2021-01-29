@@ -32,7 +32,7 @@ export default class Plan implements PlanProperties {
   }
 
   get diskInMegabyte() {
-    return Plan.gigaToMegaByte(this.bandwidth);
+    return Plan.gigaToMegaByte(this.disk);
   }
 
   get bandwidthInMegabyte() {

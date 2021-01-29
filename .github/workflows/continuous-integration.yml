@@ -1,0 +1,51 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+   test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - id: npm-cache
+        name: Get npm cache directory
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: |
+            npm-ubuntu-latest-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            npm-ubuntu-latest-${{ matrix.node-version }}-
+
+      - name: Install dependencies
+        run: rm -rf node_modules && yarn install --frozen-lockfile --ignore-scripts --prefer-offline
+
+      - name: Test
+        run: yarn test:unit
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [10, 12, 14]
