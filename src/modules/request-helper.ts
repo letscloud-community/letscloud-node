@@ -1,9 +1,4 @@
-import axios, {
-  AxiosInstance,
-  Method,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
+import axios, { AxiosInstance, Method, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import RequestError from '../errors/request-error';
 
@@ -34,9 +29,7 @@ export default class RequestHelper {
       })
         .then((response: ApiResponse<Data>) => {
           if (!response.data.success) {
-            reject(
-              new RequestError('The request returned success false', response),
-            );
+            reject(new RequestError('The request returned success false', response));
           }
 
           return resolve(response);

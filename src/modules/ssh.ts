@@ -47,10 +47,8 @@ export default class SSH implements SSHProperties {
   }
 
   public deleteSSH() {
-    return this.requestHelper
-      .submitRequest('DELETE', `/sshkeys`, {
-        data: { slug: this.slug },
-      })
-      .then(({ data: { success } }) => success);
+    return this.requestHelper.submitRequest('DELETE', `/sshkeys`, {
+      data: { slug: this.slug },
+    });
   }
 }

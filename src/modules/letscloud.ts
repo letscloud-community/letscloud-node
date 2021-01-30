@@ -55,9 +55,7 @@ export default class Letscloud {
     return this.requestHelper
       .submitRequest<LocationProperties[]>('GET', '/locations')
       .then(({ data: { data } }) => {
-        const locations = data.map(
-          location => new Location(location, this.requestHelper),
-        );
+        const locations = data.map(location => new Location(location, this.requestHelper));
 
         this.locationsDetails = locations;
         return locations;
@@ -93,16 +91,12 @@ export default class Letscloud {
 
   public createSSHKey(title: string, key?: string) {
     return this.requestHelper
-      .submitRequest<SSHProperties & { private_key: string }>(
-        'POST',
-        '/sshkeys',
-        {
-          data: {
-            title,
-            key,
-          },
+      .submitRequest<SSHProperties & { private_key: string }>('POST', '/sshkeys', {
+        data: {
+          title,
+          key,
         },
-      )
+      })
       .then(({ data: { data: ssh } }) => new SSH(ssh, this.requestHelper));
   }
 
@@ -123,24 +117,19 @@ export default class Letscloud {
   public getInstance(identifier: string) {
     return this.requestHelper
       .submitRequest<InstanceProperties>('GET', `/instances/${identifier}`)
-      .then(
-        ({ data: { data: instance } }) =>
-          new Instance(instance, this.requestHelper),
-      );
+      .then(({ data: { data: instance } }) => new Instance(instance, this.requestHelper));
   }
 
   public createInstance(instanceData: CreateInstanceRequest) {
-    return this.requestHelper
-      .submitRequest('POST', '/instances', {
-        data: {
-          location_slug: instanceData.locationSlug,
-          plan_slug: instanceData.planSlug,
-          image_slug: instanceData.imageSlug,
-          ssh_slug: instanceData.sshSlug,
-          hostname: instanceData.hostname,
-          label: instanceData.label,
-        },
-      })
-      .then(({ data: { success } }) => success);
+    return this.requestHelper.submitRequest('POST', '/instances', {
+      data: {
+        location_slug: instanceData.locationSlug,
+        plan_slug: instanceData.planSlug,
+        image_slug: instanceData.imageSlug,
+        ssh_slug: instanceData.sshSlug,
+        hostname: instanceData.hostname,
+        label: instanceData.label,
+      },
+    });
   }
 }

@@ -285,8 +285,8 @@ The SSH class contains the following properties and methods
   // Sync object data with the data in the API and return itself to allow chaining
   fetchSSHKey: () => Promise<Plan>,
 
-  // Delete the ssh and return if the operation was successful or not
-  deleteSSH: () => Promise<boolean>,
+  // Delete the ssh
+  deleteSSH: () => Promise<void>,
 }
 ```
 
@@ -378,17 +378,17 @@ The Instance class contains the following properties and methods
   // Fetch the instance data and returns itself allowing chaining
   fetchInstance: () => Promise<Instance>,
 
-  // Destroy the instance. Return if the action was executed
-  deleteInstance: () => Promise<boolean>,
+  // Destroy the instance.
+  deleteInstance: () => Promise<void>,
 
-  // Pass `true` to turn on and `false` to turn off the instance. Return if the action was executed
-  changePower: (turnOn: boolean) => Promise<boolean>,
+  // Pass `true` to turn on and `false` to turn off the instance.
+  changePower: (turnOn: boolean) => Promise<void>,
 
-  // Reboot the instance. Return if the action was executed
-  rebootInstance: () => Promise<boolean>,
+  // Reboot the instance.
+  rebootInstance: () => Promise<void>,
 
-  // Reset the root passowrd of the instance. Return if the action was executed
-  resetPassword: () => Promise<boolean>,
+  // Reset the root passowrd of the instance.
+  resetPassword: () => Promise<void>,
 }
 ```
 

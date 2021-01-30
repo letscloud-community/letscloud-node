@@ -72,9 +72,7 @@ export default class Instance implements InstanceProperties {
   }
 
   public deleteInstance() {
-    return this.requestHelper
-      .submitRequest('DELETE', `/instances/${this.identifier}`)
-      .then(({ data: { success } }) => success);
+    return this.requestHelper.submitRequest('DELETE', `/instances/${this.identifier}`);
   }
 
   public changePower(turnOn: boolean) {
@@ -84,22 +82,16 @@ export default class Instance implements InstanceProperties {
       .submitRequest('PUT', `/instances/${this.identifier}/${resource}`)
       .then(({ data: { success } }) => {
         this.booted = success ? turnOn : this.booted;
-
-        return success;
       });
   }
 
   public rebootInstance() {
-    return this.requestHelper
-      .submitRequest('PUT', `/instances/${this.identifier}/reboot`)
-      .then(({ data: { success } }) => success);
+    return this.requestHelper.submitRequest('PUT', `/instances/${this.identifier}/reboot`);
   }
 
   public resetPassword(newPassword: string) {
-    return this.requestHelper
-      .submitRequest('PUT', `/instances/${this.identifier}/reset-password`, {
-        data: { password: newPassword },
-      })
-      .then(({ data: { success } }) => success);
+    return this.requestHelper.submitRequest('PUT', `/instances/${this.identifier}/reset-password`, {
+      data: { password: newPassword },
+    });
   }
 }
