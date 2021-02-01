@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepublish": "tsc",
     "build": "tsc",
     "dev": "ts-node-dev --transpileOnly --ignore-watch node_modules src/index.ts",
     "lint:js": "eslint . --ignore-path .gitignore",
